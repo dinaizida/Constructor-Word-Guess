@@ -25,9 +25,9 @@ var Letter = function(character){
     this.guessedCorrectly = function(newCharGuessed){
         if(this.character.toUpperCase() === newCharGuessed.toUpperCase()){
             this.letterGuessed = true;
-            //console.log(this.letterGuessed);
+            console.log(this.letterGuessed);
         }
-            //console.log(this.letterGuessed);
+            console.log(this.letterGuessed);
         
     }
 

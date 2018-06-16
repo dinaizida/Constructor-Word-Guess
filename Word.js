@@ -10,12 +10,13 @@ var Word = function(wordToGuess){
     this.wordToLetters = function(){
         var wordToGuessArr = this.wordToGuess.split("");
           //console.log(wordToGuessArr);
-        for(var i = 0; i < wordToGuessArr.length; i ++){
+        for(var i = 0; i < wordToGuessArr.length; i++){
+            // console.log("begin");
             var wordLetter = new Letter(wordToGuessArr[i]);
             this.lettersArr.push(wordLetter);
 
-            //console.log(this.lettersArr);
-            //console.log(wordToGuessArr.length);
+            // console.log(this.lettersArr);
+            // console.log(wordToGuessArr.length);
         }
     }
     
@@ -29,6 +30,7 @@ var Word = function(wordToGuess){
     this.userGuess = function(guessedLetter){
         for (var i = 0; i < this.lettersArr.length; i ++){
             this.lettersArr[i].guessedCorrectly(guessedLetter);
+            
         }
 
     }
@@ -36,14 +38,14 @@ var Word = function(wordToGuess){
 }
 
 //testing 
-var word = new Word("aaaBBB");
-console.log(word);
+// var word = new Word("aaaBBB");
+// console.log(word);
 
-word.wordToLetters();
+// word.wordToLetters();
 
-word.toString();
+// word.toString();
 
-word.userGuess("k");
+// word.userGuess("k");
 
 module.exports = Word;
 
