@@ -21,4 +21,4 @@ Prompts the user for each guess and keeps track of the user's remaining guesses
 JavaScript, Node.js. 
 
 
-![Screen Shot](https://github.com/dinaizida/TrainTime/blob/master/assets/images/git.png)
+![Screen Shot](https://github.com/dinaizida/TrainTime/blob/master/assets/images/....png)
