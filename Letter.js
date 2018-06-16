@@ -10,28 +10,30 @@
 
 
 
-var Letter =function(character){
+var Letter = function(character){
     this.character =character;
     this.letterGuessed = false;
     this.toString = function(){
         if(this.letterGuessed){
+            return this.character;
             console.log(this.character);
         }else{
+            return "_";
             console.log('_');
         }
     }
     this.guessedCorrectly = function(newCharGuessed){
         if(this.character.toUpperCase() === newCharGuessed.toUpperCase()){
             this.letterGuessed = true;
-            console.log(this.letterGuessed);
-        }else{
-            console.log(this.letterGuessed);
+            //console.log(this.letterGuessed);
         }
+            //console.log(this.letterGuessed);
+        
     }
 
 }
 
-module.exports=Letter;
+module.exports = Letter;
 
 // testing
 // var letter1 = new Letter ("a");
