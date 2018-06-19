@@ -10,7 +10,9 @@ This program using CLI to interact with a user.
 
   Game RULES (HINT: this Game using US States names): 
     1. Press any letter (a-z) on the keyboard to guess a letter.
+    
     2. If your choice is incorrect, the letter you guessed does not appear in the word.
+    
     3. Keep guessing letters.
     4. For every incorrect guess, the number of guesses remaining decrease by 1.
     5. If your choice is correct, the letter you guessed appears in the word.
