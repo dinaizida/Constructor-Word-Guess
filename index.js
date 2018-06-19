@@ -15,22 +15,37 @@ var gameRules =
     "   " + "\r\n" +
     "8. You can exit the game at any time by pressing Ctrl + C on your keyboard." + "\r\n" +
     "   ";
-    "******************************" + "\r\n" +
-    "   " + "\r\n" +
+"******************************" + "\r\n" +
+"   " + "\r\n" +
 console.log(gameRules);
 
-var wordList = ["Texas", "California", "Florida", "Minnesota", "New Mexico", "Alaska"];
-
+var wordList = [
+    'Alabama',
+    'Alaska',
+    'Arizona',
+    'Arkansas',
+    'California',
+    'Colorado',
+    'Texas',
+    'Utah',
+    'Vermont',
+    'Virginia',
+    'Delaware',
+    'Florida',
+    'Georgia',
+    'Illinois',
+    'Montana'
+];
 // variables for computer to pick randomly from the array of words
-var randomWord;
-var computerWord;
+var randomWord = "";
+var computerWord = "";
 var wins = 0;
 var losses = 0;
 var numberOfSlots = 0; //Number of underscores/slots that have been filled in with a letters.
 var numberOfGuesses = 10;
 //variable and array to hold letters that user already guessed.
-var lettersAlreadyGuessedList = "";
-var lettersAlreadyGuessedListArray = [];
+var userGuess = "";
+var userGuessesArray = [];
 //When user guesses correctly, set this variable to true for that letter. The default value will be false.
 var userGuessedCorrectly = false;
 
@@ -55,19 +70,19 @@ function askToStart() {
         } else {
             console.log('Come back again ' + answers.namePlayer + " !");
             return;
-        }
+        };
     });
-}
+};
 
 function startGame() {
     numberOfGuesses = 10; //reset number of remaining guesses before starting a game
     //empty out list of already guessed letters.
-    lettersAlreadyGuessedList = "";
-    lettersAlreadyGuessedListArray = [];
+    userGuess = "";
+    userGuessesArray = [];
     numberOfSlots = 0;
     getWord(); // get a word from the wordList array
 
-}
+};
 
 //Function to choose a random word from the list of states in the word array.
 function getWord() {
@@ -77,10 +92,20 @@ function getWord() {
     computerWord = new Word(randomWord);
     console.log("Your word has " + randomWord.length + " letters.");
     console.log("Word To Guess:");
+    underscoresToPrint(); // to print undersocres array that will be replaced with maching letters
+
     //Use the  Word.js to split the word and generate letters.
     computerWord.splitWord();
     computerWord.generateLetters();
     guessLetter();
+};
+
+// create an array with all underscores that will be replaced with the correct letters
+var underscoresToPrint = function() {
+    for (var i = 0; i < randomWord.length; i++) {
+        computerWord.underscores.push('_');
+    }
+    return computerWord.underscores;
 };
 
 // prompt the user to enter a letter.
@@ -97,15 +122,15 @@ function guessLetter() {
             //user guess has to be set to false here to print out "Correct or Incorrect "- matching correctly each time
             userGuessedCorrectly = false;
             //check if the letter was already entered by user
-            if (lettersAlreadyGuessedListArray.indexOf(answer.userLetter.toUpperCase()) > -1) {
+            if (userGuessesArray.indexOf(answer.userLetter.toUpperCase()) > -1) {
                 console.log('You already entered that letter. Please enter another one.');
                 //run prompt again for user to enter another letter
                 guessLetter();
-            } else if (lettersAlreadyGuessedListArray.indexOf(answer.userLetter.toUpperCase()) === -1) {
+            } else if (userGuessesArray.indexOf(answer.userLetter.toUpperCase()) === -1) {
                 //if letter was not entered, add letter to an array with guessed letters
-                lettersAlreadyGuessedList = lettersAlreadyGuessedList.concat(" " + answer.userLetter.toUpperCase());
-                lettersAlreadyGuessedListArray.push(answer.userLetter.toUpperCase());
-                console.log('Letters already entered: ' + lettersAlreadyGuessedList + " ");
+                userGuess = userGuess.concat(" " + answer.userLetter.toUpperCase());
+                userGuessesArray.push(answer.userLetter.toUpperCase());
+                console.log('Letters already entered: ' + userGuess + " ");
 
                 //check if the letter that the user guessed matches one of the letters in the word.
                 for (var i = 0; i < computerWord.letters.length; i++) {
@@ -115,11 +140,8 @@ function guessLetter() {
                         computerWord.letters[i].letterGuessed === true;
                         //Set userGuessedCorrectly to true.
                         userGuessedCorrectly = true;
-                        computerWord.underscores[i] = answer.userLetter.toUpperCase();
-                        //computerWord.underscores.join("");
-                        //console.log(computerWord.underscores);
+                        computerWord.underscores[i] = answer.userLetter.toUpperCase(); //replace the underscore by matching letter in the underscore array
                         numberOfSlots++
-                        //console.log("number of slots = " + numberOfSlots);
                     }
                 }
                 console.log("Word To Guess:");
@@ -139,37 +161,34 @@ function guessLetter() {
                     console.log("You have " + numberOfGuesses + " guesses left.");
                     //check if the user won or lost.
                     winsLosses();
-                }
-            }
+                };
+            };
         });
-    }
-}
-
+    };
+};
 
 //This function will check if the user won or lost after user guesses a letter.
 function winsLosses() {
-   if(numberOfGuesses === 0){
-       console.log('You LOST!  The correct US state was: ' + randomWord );
-       losses++;
-       console.log('Wins: ' + wins);
-       console.log('Losses: ' + losses);
-       console.log('******************************');
-       askToPlayAgain();
-   }  //chesk is all slots filled in by entered correctly letters
-   else if(numberOfSlots === computerWord.letters.length){
+    if (numberOfGuesses === 0) {
+        console.log('You LOST!  The correct US state was: ' + randomWord);
+        losses++;
+        console.log('Wins: ' + wins);
+        console.log('Losses: ' + losses);
+        console.log('******************************');
+        askToPlayAgain();
+    } //chesk is all slots filled in by entered correctly letters
+    else if (numberOfSlots === computerWord.letters.length) {
         console.log("You WON!");
         wins++;
         console.log("Wins: " + wins);
         console.log("Losses: " + losses);
         console.log("******************************");
         askToPlayAgain();
-   }
-   else{ //if user still need to enter letters to continue guessing the word
-    guessLetter()
-   }
-   
-}
+    } else { //if user still need to enter letters to continue guessing the word
+        guessLetter()
+    };
 
+};
 
 function askToPlayAgain() {
     //game confirmation prompt to user
@@ -182,15 +201,15 @@ function askToPlayAgain() {
         // check is user wnats to play and then call startGame function
         if (result.wantToPlayAgain) {
             //Empty out the array that contains the letters already guessed.
-			// lettersAlreadyGuessedList = "";
-			// lettersAlreadyGuessedListArray = [];
-			//Set number of slots filled in with letters back to zero.
-			//numberOfSlots = 0;
+            // userGuess = "";
+            // userGuessesArray = [];
+            //Set number of slots filled in with letters back to zero.
+            //numberOfSlots = 0;
             console.log("Great, let's start!");
             startGame();
         } else {
             console.log('Come back again!');
             return;
-        }
+        };
     });
-}
+};
