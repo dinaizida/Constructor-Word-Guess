@@ -3,19 +3,20 @@ var inquirer = require('inquirer');
 
 var gameRules =
     "   " + "\r\n" +
-    "Game Rules (HINT: this Game using US States names): " + "\r\n" +
+    "***** Game RULES (HINT: this Game using US States names): *****" + "\r\n" +
     "   " + "\r\n" +
-    "Press any letter (a-z) on the keyboard to guess a letter." + "\r\n" +
-    "If your choice is incorrect, the letter you guessed does not appear in the word." + "\r\n" +
-    "Keep guessing letters." + "\r\n" +
-    "For every incorrect guess, the number of guesses remaining decrease by 1." + "\r\n" +
-    "If your choice is correct, the letter you guessed appears in the word." + "\r\n" +
-    "If you correctly guess all the letters in the word before the number of guesses remaining reaches 0, you win." + "\r\n" +
-    "If you run out of guesses before the entire word is revealed, you lose." + "\r\n" +
+    "1. Press any letter (a-z) on the keyboard to guess a letter." + "\r\n" +
+    "2. If your choice is incorrect, the letter you guessed does not appear in the word." + "\r\n" +
+    "3. Keep guessing letters." + "\r\n" +
+    "4. For every incorrect guess, the number of guesses remaining decrease by 1." + "\r\n" +
+    "5. If your choice is correct, the letter you guessed appears in the word." + "\r\n" +
+    "6. If you correctly guess all the letters in the word before the number of guesses remaining reaches 0, you win." + "\r\n" +
+    "7.If you run out of guesses before the entire word is revealed, you lose." + "\r\n" +
     "   " + "\r\n" +
-    "You can exit the game at any time by pressing Ctrl + C on your keyboard." + "\r\n" +
+    "8. You can exit the game at any time by pressing Ctrl + C on your keyboard." + "\r\n" +
     "   ";
-
+    "******************************" + "\r\n" +
+    "   " + "\r\n" +
 console.log(gameRules);
 
 var wordList = ["Texas", "California", "Florida", "Minnesota", "New Mexico", "Alaska"];
@@ -27,8 +28,6 @@ var wins = 0;
 var losses = 0;
 var numberOfSlots = 0; //Number of underscores/slots that have been filled in with a letters.
 var numberOfGuesses = 10;
-//variable to hold the letter that the user enters at the inquirer prompt.
-var userGuess = "";
 //variable and array to hold letters that user already guessed.
 var lettersAlreadyGuessedList = "";
 var lettersAlreadyGuessedListArray = [];
@@ -65,22 +64,22 @@ function startGame() {
     //empty out list of already guessed letters.
     lettersAlreadyGuessedList = "";
     lettersAlreadyGuessedListArray = [];
+    numberOfSlots = 0;
     getWord(); // get a word from the wordList array
 
 }
 
-//Function to choose a random word from the list of cities in the word bank array.
+//Function to choose a random word from the list of states in the word array.
 function getWord() {
     randomWord = wordList[Math.floor(Math.random() * wordList.length)].toUpperCase();
 
     // using the Word constructor to create computerWord instance of it.
     computerWord = new Word(randomWord);
-    console.log("Your word had " + randomWord.length + " letters.");
+    console.log("Your word has " + randomWord.length + " letters.");
     console.log("Word To Guess:");
     //Use the  Word.js to split the word and generate letters.
     computerWord.splitWord();
     computerWord.generateLetters();
-
     guessLetter();
 };
 
@@ -120,6 +119,7 @@ function guessLetter() {
                         //computerWord.underscores.join("");
                         //console.log(computerWord.underscores);
                         numberOfSlots++
+                        //console.log("number of slots = " + numberOfSlots);
                     }
                 }
                 console.log("Word To Guess:");
@@ -148,17 +148,27 @@ function guessLetter() {
 
 //This function will check if the user won or lost after user guesses a letter.
 function winsLosses() {
-   if(numberOfGuesses ===0){
-       console.log('You Lost.  The correct US state was: ' + randomWord );
+   if(numberOfGuesses === 0){
+       console.log('You LOST!  The correct US state was: ' + randomWord );
        losses++;
        console.log('Wins: ' + wins);
        console.log('Losses: ' + losses);
+       console.log('******************************');
        askToPlayAgain();
-   }else{
-    guessLetter();
+   }  //chesk is all slots filled in by entered correctly letters
+   else if(numberOfSlots === computerWord.letters.length){
+        console.log("You WON!");
+        wins++;
+        console.log("Wins: " + wins);
+        console.log("Losses: " + losses);
+        console.log("******************************");
+        askToPlayAgain();
    }
+   else{ //if user still need to enter letters to continue guessing the word
+    guessLetter()
+   }
+   
 }
-
 
 
 function askToPlayAgain() {
@@ -171,10 +181,15 @@ function askToPlayAgain() {
     }]).then(function(result) {
         // check is user wnats to play and then call startGame function
         if (result.wantToPlayAgain) {
+            //Empty out the array that contains the letters already guessed.
+			// lettersAlreadyGuessedList = "";
+			// lettersAlreadyGuessedListArray = [];
+			//Set number of slots filled in with letters back to zero.
+			//numberOfSlots = 0;
             console.log("Great, let's start!");
             startGame();
         } else {
-            console.log('Come back again ' + answers.namePlayer + " !");
+            console.log('Come back again!');
             return;
         }
     });
