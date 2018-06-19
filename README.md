@@ -31,5 +31,5 @@ Object-oriented CLI Word-Guess game using node.js
 JavaScript, Node.js, NPM packages. 
 
 
-![Screen Shot](https://github.com/dinaizida/Constructor-Word-Guess/blob/master/assets/images/....png)
+![Screen Shot](https://github.com/dinaizida/Constructor-Word-Guess/blob/master/assets/images/word_guess.gif)
 
