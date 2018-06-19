@@ -6,7 +6,7 @@ Constructor-Word-Guess
 
 # Project Description:
 
-This program using CLI to interact with a user.
+Object-oriented CLI Word-Guess game using node.js
 
   Game RULES (HINT: this Game using US States names): 
   - Press any letter (a-z) on the keyboard to guess a letter.
