@@ -1,4 +1,4 @@
-var Letter = require('./Letter.js');
+var Letter = require('./Letter');
 
 var Word = function(wordToGuess) {
     //An array of new Letter objects representing the letters of the underlying word
@@ -26,9 +26,8 @@ var Word = function(wordToGuess) {
             this.letters[i] = new Letter(this.letters[i]);
             this.letters[i].showCharacter();
         }
-
-    };
-};
+    }
+}
 module.exports = Word;
 
 //testing 

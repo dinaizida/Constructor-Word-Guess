@@ -2,9 +2,9 @@ var Word = require('./Word.js');
 var inquirer = require('inquirer');
 
 var gameRules =
-    "============================" + "\r\n" +
-    "Game Rules: " + "\r\n" +
-    "============================" + "\r\n" +
+    "   " + "\r\n" +
+    "Game Rules (HINT: this Game using US States names): " + "\r\n" +
+    "   " + "\r\n" +
     "Press any letter (a-z) on the keyboard to guess a letter." + "\r\n" +
     "If your choice is incorrect, the letter you guessed does not appear in the word." + "\r\n" +
     "Keep guessing letters." + "\r\n" +
@@ -12,13 +12,14 @@ var gameRules =
     "If your choice is correct, the letter you guessed appears in the word." + "\r\n" +
     "If you correctly guess all the letters in the word before the number of guesses remaining reaches 0, you win." + "\r\n" +
     "If you run out of guesses before the entire word is revealed, you lose." + "\r\n" +
-    "===========================" + "\r\n" +
+    "   " + "\r\n" +
     "You can exit the game at any time by pressing Ctrl + C on your keyboard." + "\r\n" +
-    "===========================";
+    "   ";
 
 console.log(gameRules);
 
-var wordList = ["Texas", "Califormia", "Florida", "Minesota", "New Mexico", "Alaska"];
+var wordList = ["Texas", "California", "Florida", "Minnesota", "New Mexico", "Alaska"];
+
 // variables for computer to pick randomly from the array of words
 var randomWord;
 var computerWord;
@@ -61,10 +62,7 @@ function askToStart() {
 
 function startGame() {
     numberOfGuesses = 10; //reset number of remaining guesses before starting a game
-    wins = 0;
-    losses = 0;
-    numberOfSlots = 0;
-    //need to empty out list of already guessed letters.
+    //empty out list of already guessed letters.
     lettersAlreadyGuessedList = "";
     lettersAlreadyGuessedListArray = [];
     getWord(); // get a word from the wordList array
@@ -77,13 +75,10 @@ function getWord() {
 
     // using the Word constructor to create computerWord instance of it.
     computerWord = new Word(randomWord);
-    console.log("Your word contains " + randomWord.length + " letters.");
-    console.log("WORD TO GUESS:");
+    console.log("Your word had " + randomWord.length + " letters.");
+    console.log("Word To Guess:");
     //Use the  Word.js to split the word and generate letters.
     computerWord.splitWord();
-    console.log('random word -' + randomWord);
-    console.log('computer word - ' + computerWord);
-    console.log('computer word -generate letters ' + computerWord.generateLetters());
     computerWord.generateLetters();
 
     guessLetter();
@@ -93,7 +88,6 @@ function getWord() {
 function guessLetter() {
     //ask user to enter a letter if there are "underscores" still need to be filled in
     // if there are still quesses remaining
-    
     if (numberOfSlots < computerWord.letters.length || numberOfGuesses > 0) {
         inquirer.prompt([{
             name: "userLetter",
@@ -101,6 +95,8 @@ function guessLetter() {
         }]).then(function(answer) {
             answer.userLetter.toUpperCase();
             console.log('You entered: ' + answer.userLetter.toUpperCase());
+            //user guess has to be set to false here to print out "Correct or Incorrect "- matching correctly each time
+            userGuessedCorrectly = false;
             //check if the letter was already entered by user
             if (lettersAlreadyGuessedListArray.indexOf(answer.userLetter.toUpperCase()) > -1) {
                 console.log('You already entered that letter. Please enter another one.');
@@ -110,7 +106,7 @@ function guessLetter() {
                 //if letter was not entered, add letter to an array with guessed letters
                 lettersAlreadyGuessedList = lettersAlreadyGuessedList.concat(" " + answer.userLetter.toUpperCase());
                 lettersAlreadyGuessedListArray.push(answer.userLetter.toUpperCase());
-                console.log('Letters already entered: ' + lettersAlreadyGuessedList);
+                console.log('Letters already entered: ' + lettersAlreadyGuessedList + " ");
 
                 //check if the letter that the user guessed matches one of the letters in the word.
                 for (var i = 0; i < computerWord.letters.length; i++) {
@@ -121,14 +117,12 @@ function guessLetter() {
                         //Set userGuessedCorrectly to true.
                         userGuessedCorrectly = true;
                         computerWord.underscores[i] = answer.userLetter.toUpperCase();
-                        computerWord.underscores.join("");
-                        console.log(computerWord.underscores);
-                        //Increment the number of slots/underscores filled in with letters by 1.
+                        //computerWord.underscores.join("");
+                        //console.log(computerWord.underscores);
                         numberOfSlots++
-                        console.log("Number of slots remaining " + numberOfSlots);
                     }
                 }
-                console.log("WORD TO GUESS:");
+                console.log("Word To Guess:");
                 computerWord.splitWord();
                 computerWord.generateLetters();
 
@@ -140,7 +134,7 @@ function guessLetter() {
                 }
                 //if letter does not matches
                 else {
-                    console.log(incorrect('INCORRECT!'));
+                    console.log('INCORRECT!');
                     numberOfGuesses--;
                     console.log("You have " + numberOfGuesses + " guesses left.");
                     //check if the user won or lost.
@@ -154,7 +148,34 @@ function guessLetter() {
 
 //This function will check if the user won or lost after user guesses a letter.
 function winsLosses() {
-    console.log('check win or loss ');
+   if(numberOfGuesses ===0){
+       console.log('You Lost.  The correct US state was: ' + randomWord );
+       losses++;
+       console.log('Wins: ' + wins);
+       console.log('Losses: ' + losses);
+       askToPlayAgain();
+   }else{
+    guessLetter();
+   }
 }
 
 
+
+function askToPlayAgain() {
+    //game confirmation prompt to user
+    inquirer.prompt([{
+        type: "confirm",
+        name: "wantToPlayAgain",
+        message: "Do you want to play again?",
+        default: true
+    }]).then(function(result) {
+        // check is user wnats to play and then call startGame function
+        if (result.wantToPlayAgain) {
+            console.log("Great, let's start!");
+            startGame();
+        } else {
+            console.log('Come back again ' + answers.namePlayer + " !");
+            return;
+        }
+    });
+}
