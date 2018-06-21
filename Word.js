@@ -5,7 +5,7 @@ var Word = function(wordToGuess) {
     this.letters = [];
     this.wordToGuess = wordToGuess;
     //This is an array of underscores representing the number of underscores needed for the word 
-    this.underscores = [];
+    this.underscores = []; 
     //word to split into array of letters 
     this.splitWord = function(){
         this.letters = this.wordToGuess.split("");

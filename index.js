@@ -87,13 +87,11 @@ function startGame() {
 //Function to choose a random word from the list of states in the word array.
 function getWord() {
     randomWord = wordList[Math.floor(Math.random() * wordList.length)].toUpperCase();
-
     // using the Word constructor to create computerWord instance of it.
     computerWord = new Word(randomWord);
     console.log("Your word has " + randomWord.length + " letters.");
     console.log("Word To Guess:");
-    underscoresToPrint(); // to print undersocres array that will be replaced with maching letters
-
+    underscoresToPrint(); //  undersocres array that will be replaced with maching letters
     //Use the  Word.js to split the word and generate letters.
     computerWord.splitWord();
     computerWord.generateLetters();
@@ -131,7 +129,6 @@ function guessLetter() {
                 userGuess = userGuess.concat(" " + answer.userLetter.toUpperCase());
                 userGuessesArray.push(answer.userLetter.toUpperCase());
                 console.log('Letters already entered: ' + userGuess + " ");
-
                 //check if the letter that the user guessed matches one of the letters in the word.
                 for (var i = 0; i < computerWord.letters.length; i++) {
                     //If the user guess equals one of the letters in the word and letterGuessed is equal to false for that letter...
@@ -200,11 +197,6 @@ function askToPlayAgain() {
     }]).then(function(result) {
         // check is user wnats to play and then call startGame function
         if (result.wantToPlayAgain) {
-            //Empty out the array that contains the letters already guessed.
-            // userGuess = "";
-            // userGuessesArray = [];
-            //Set number of slots filled in with letters back to zero.
-            //numberOfSlots = 0;
             console.log("Great, let's start!");
             startGame();
         } else {
