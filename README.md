@@ -2,7 +2,7 @@
 
 # Project Name
 
-Constructor-Word-Guess
+## Constructor-Word-Guess
 
 ### Project Description:
 
@@ -20,11 +20,11 @@ Object-oriented CLI Word-Guess game using node.js
   
  Files: 
 
--Letter.js: Contains a constructor, Letter. This constructor displays a blank placeholder depending on whether or not the user has guessed the letter.
+- Letter.js: Contains a constructor, Letter. This constructor displays a blank placeholder depending on whether or not the user has guessed the letter.
 
--Word.js: Contains a constructor, Word that depends on the Letter constructor. This is used to create an object representing the current word the user is attempting to guess.
+- Word.js: Contains a constructor, Word that depends on the Letter constructor. This is used to create an object representing the current word the user is attempting to guess.
 
--index.js: The file containing the logic for the course of the game, which depends on Word.js and randomly selects a word and uses the Word constructor to store it. Prompts the user for each guess and keeps track of the user's remaining guesses
+- index.js: The file containing the logic for the course of the game, which depends on Word.js and randomly selects a word and uses the Word constructor to store it. Prompts the user for each guess and keeps track of the user's remaining guesses
 
 ### Technologies Used: 
 
